@@ -14,6 +14,7 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
@@ -38,16 +39,18 @@
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('loans.index') }}">Loans</a>
+                                    <a class="nav-link" href="{{ route('loans.index') }}">
+                                        Кредити
+                                    </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('loans.create') }}">Create Loan</a>
+                                    <a class="nav-link" href="{{ route('loans.create') }}">Вземи Кредит</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('payments.index') }}">Payments</a>
+                                    <a class="nav-link" href="{{ route('payments.index') }}">Плащания</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('payments.create') }}">Create Payment</a>
+                                    <a class="nav-link" href="{{ route('payments.create') }}">Плати</a>
                                 </li>
                             </ul>
                         </div>

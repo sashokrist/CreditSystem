@@ -21,7 +21,7 @@ class LoanController extends Controller
 
     public function index()
     {
-        $loans = Loan::all();
+        $loans = Loan::paginate(10);
         $loanController = $this; // Pass the controller instance to the view
         return view('loans.index', compact('loans', 'loanController'));
     }

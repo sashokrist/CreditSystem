@@ -14,9 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+
 
 // routes/web.php
 
@@ -27,7 +28,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Route for displaying all credits
-Route::get('/loans', [LoanController::class, 'index'])->name('loans.index');
+Route::get('/', [LoanController::class, 'index'])->name('loans.index');
 
 // Route for displaying the form to create a new loan
 Route::get('/loans/create', [LoanController::class, 'create'])->name('loans.create');

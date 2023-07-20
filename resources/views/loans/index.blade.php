@@ -16,15 +16,15 @@
                                 {{ session('warning') }}
                             </div>
                         @endif
-                        <h2>All Credits</h2>
+                        <h2>Кредити</h2>
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th>Loan ID</th>
-                                <th>Borrower Name</th>
-                                <th>Amount (BGN)</th>
-                                <th>Term (months)</th>
-                                <th>Monthly Installment (BGN)</th>
+                                <th>Кредит ID</th>
+                                <th>Име на получателя</th>
+                                <th>Сума (BGN)</th>
+                                <th>Период (месеци)</th>
+                                <th>Месечана лихва (BGN)</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -32,16 +32,23 @@
                                 <tr>
                                     <td>{{ $loan->id }}</td>
                                     <td>{{ $loan->borrower_name }}</td>
-                                    <td>{{ $loan->amount }}</td>
+                                    <td>{{ $loan->amount }} лв.</td>
                                     <td>{{ $loan->term }}</td>
-                                    <td>{{ $loanController->calculateMonthlyInstallment($loan->amount, $loan->term) }}</td>
+                                    <td>{{ $loanController->calculateMonthlyInstallment($loan->amount, $loan->term) }} лв.</td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
+
+                        {{ $loans->links('pagination::bootstrap-4') }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        setTimeout(function () {
+            $('.alert').fadeOut('slow');
+        }, 3000);
+    </script>
 @endsection
