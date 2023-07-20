@@ -9,6 +9,9 @@ use App\Services\LoanService;
 use Illuminate\Http\Request;
 use App\Models\Loan;
 use App\Models\Payment;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
+use Throwable;
 
 class LoanController extends Controller
 {
@@ -36,7 +39,8 @@ class LoanController extends Controller
         // Check if the total amount of loans for the borrower exceeds BGN 80,000
         try {
             $isTotalLoansAmountValid = $this->loanService->checkTotalLoansAmount($request->borrower_name, $request->amount);
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
+            Log::critical($e->getMessage());
             return redirect()->back()->with('error', 'The total amount of loans for this borrower exceeds BGN 80,000.');
         }
 

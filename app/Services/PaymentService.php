@@ -7,6 +7,13 @@ use App\Models\Payment;
 
 class PaymentService
 {
+    /**
+     * Check if the total amount of loans for the borrower exceeds BGN 80,000
+     *
+     * @param string $borrowerName
+     * @param float $loanAmount
+     * @return bool
+     */
     public function makePayment(Loan $loan, $amount)
     {
         // Calculate the total amount paid for the loan
@@ -31,7 +38,5 @@ class PaymentService
 
         $loan->amount = $current;
         $loan->save();
-
-        return true; // Payment successful
     }
 }

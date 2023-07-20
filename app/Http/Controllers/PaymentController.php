@@ -14,6 +14,8 @@ use App\Models\Loan;
 use App\Models\Payment;
 use App\Services\PaymentService;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 // Add the PaymentService class
 
@@ -58,17 +60,19 @@ class PaymentController extends Controller
     {
         try {
             $loan = Loan::findOrFail($request->loan_id);
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
+            Log::critical($e->getMessage());
             return redirect()->back()->with('error', 'Loan not found.');
         }
 
         try {
             $paymentSuccessful = $this->paymentService->makePayment($loan, $request->amount);
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
+            Log::critical($e->getMessage());
             return redirect()->back()->with('error', 'warning', 'The payment amount exceeds the remaining amount due. Only the amount owed has been withdrawn.');
         }
 
-        return redirect()->route('loans.index')
+        return redirect()->route('payments.index')
             ->with('success', 'Payment made successfully.');
     }
 }
