@@ -34,9 +34,9 @@ class LoanController extends Controller
     public function store(LoanRequest $request)
     {
         // Check if the total amount of loans for the borrower exceeds BGN 80,000
-        $isTotalLoansAmountValid = $this->loanService->checkTotalLoansAmount($request->borrower_name, $request->amount);
-
-        if (!$isTotalLoansAmountValid) {
+        try {
+            $isTotalLoansAmountValid = $this->loanService->checkTotalLoansAmount($request->borrower_name, $request->amount);
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', 'The total amount of loans for this borrower exceeds BGN 80,000.');
         }
 

@@ -56,17 +56,16 @@ class PaymentController extends Controller
      */
     public function store(PaymentRequest $request)
     {
-        $loan = Loan::find($request->loan_id);
-        // Check if the loan exists
-        if (!$loan) {
+        try {
+            $loan = Loan::findOrFail($request->loan_id);
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Loan not found.');
         }
 
-        // Make the payment using the PaymentService
-        $paymentSuccessful = $this->paymentService->makePayment($loan, $request->amount);
-
-        if (!$paymentSuccessful) {
-            return redirect()->route('loans.index')->with('warning', 'The payment amount exceeds the remaining amount due. Only the amount owed has been withdrawn.');
+        try {
+            $paymentSuccessful = $this->paymentService->makePayment($loan, $request->amount);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'warning', 'The payment amount exceeds the remaining amount due. Only the amount owed has been withdrawn.');
         }
 
         return redirect()->route('loans.index')
