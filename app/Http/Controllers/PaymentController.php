@@ -33,7 +33,7 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        $payments = Payment::with('loan')->paginate(10);
+        $payments = Payment::with('loan')->orderByDesc('created_at')->paginate(10);
         return view('payments.index', compact('payments'));
     }
 

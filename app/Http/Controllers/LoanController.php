@@ -21,7 +21,7 @@ class LoanController extends Controller
 
     public function index()
     {
-        $loans = Loan::paginate(10);
+        $loans = Loan::orderByDesc('created_at')->paginate(10);
         $loanController = $this; // Pass the controller instance to the view
         return view('loans.index', compact('loans', 'loanController'));
     }
@@ -34,8 +34,9 @@ class LoanController extends Controller
     public function store(LoanRequest $request)
     {
         // Check if the total amount of loans for the borrower exceeds BGN 80,000
-        $totalAmountLoans = Loan::where('borrower_name', $request->borrower_name)->sum('amount');
-        if ($totalAmountLoans + $request->amount > 80000) {
+        $isTotalLoansAmountValid = $this->loanService->checkTotalLoansAmount($request->borrower_name, $request->amount);
+
+        if (!$isTotalLoansAmountValid) {
             return redirect()->back()->with('error', 'The total amount of loans for this borrower exceeds BGN 80,000.');
         }
 
