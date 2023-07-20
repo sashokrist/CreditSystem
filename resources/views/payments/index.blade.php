@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
-                        <h2>Плащания</h2>
+                        <h2 class="text-center">Плащания</h2>
                         <table class="table table-striped">
                             <thead>
                             <tr>

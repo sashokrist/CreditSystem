@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
-                        <h2>Плати</h2>
+                        <h2 class="text-center">Плати</h2>
                         <form action="{{ route('payments.store') }}" method="POST">
                             @csrf
                             <div class="form-group">

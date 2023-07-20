@@ -13,7 +13,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
-                        <h2>Create New Loan</h2>
+                        <h2 class="text-center">Вземи кредит</h2>
                         <form action="{{ route('loans.store') }}" method="POST">
                             @csrf
                             <div class="form-group">

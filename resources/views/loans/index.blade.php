@@ -16,7 +16,7 @@
                                 {{ session('warning') }}
                             </div>
                         @endif
-                        <h2>Кредити</h2>
+                        <h2 class="text-center">Кредити</h2>
                         <table class="table table-striped">
                             <thead>
                             <tr>
