@@ -28,8 +28,7 @@ class PaymentService
             throw new PaymentException(sprintf('Вие платих те (%d) лв. повече от колкото дължите сумата ще ви бъде приспадната и остатъка ввърнат! Сума за получаване: (%d) лв. ',
                 $amountToBePaid, $remainingAmount ));
         }
-
-        $loan->amount = $amountToBePaid;
+        $loan->amount = $remainingAmount - $amountToBePaid;
         $loan->save();
     }
 }
