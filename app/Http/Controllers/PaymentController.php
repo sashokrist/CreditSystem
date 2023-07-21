@@ -67,12 +67,11 @@ class PaymentController extends Controller
 
         try {
             $paymentSuccessful = $this->paymentService->makePayment($loan, $request->amount);
+            return redirect()->route('loans.index')
+                ->with('success', 'Payment made successfully.');
         } catch (Throwable $e) {
             Log::critical($e->getMessage());
             return redirect()->back()->with('error', 'warning', 'The payment amount exceeds the remaining amount due. Only the amount owed has been withdrawn.');
         }
-
-        return redirect()->route('payments.index')
-            ->with('success', 'Payment made successfully.');
     }
 }

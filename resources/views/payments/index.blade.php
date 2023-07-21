@@ -38,4 +38,9 @@
             </div>
         </div>
     </div>
+    <script>
+        setTimeout(function () {
+            $('.alert').fadeOut('slow');
+        }, 9000);
+    </script>
 @endsection

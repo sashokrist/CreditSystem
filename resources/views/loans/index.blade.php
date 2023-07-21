@@ -34,7 +34,14 @@
                                     <td>{{ $loan->borrower_name }}</td>
                                     <td>{{ $loan->amount }} лв.</td>
                                     <td>{{ $loan->term }}</td>
-                                    <td>{{ $loanController->calculateMonthlyInstallment($loan->amount, $loan->term) }} лв.</td>
+                                    <td>
+                                        @php
+                                            // Calculate monthly installment using the LoanService
+                                            $loanService = app(\App\Services\LoanService::class);
+                                            $monthlyInstallment = $loanService->calculateMonthlyInstallment($loan->amount, $loan->term);
+                                            echo number_format($monthlyInstallment, 2);
+                                        @endphp лв.
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>

@@ -38,5 +38,12 @@ class PaymentService
 
         $loan->amount = $current;
         $loan->save();
+
+        // Check if the remaining amount becomes zero or negative
+        if ($current <= 0) {
+            $loan->delete();
+        }
+
+        return true; // Payment made successfully
     }
 }

@@ -25,8 +25,8 @@ class LoanController extends Controller
     public function index()
     {
         $loans = Loan::orderByDesc('created_at')->paginate(10);
-        $loanController = $this; // Pass the controller instance to the view
-        return view('loans.index', compact('loans', 'loanController'));
+
+        return view('loans.index', compact('loans'));
     }
 
     public function create()
@@ -36,22 +36,24 @@ class LoanController extends Controller
 
     public function store(LoanRequest $request)
     {
-        // Check if the total amount of loans for the borrower exceeds BGN 80,000
         try {
+            // Convert the borrower_name to lowercase
+            $request->merge(['borrower_name' => strtolower($request->borrower_name)]);
+
+            // Check if the total amount of loans for the borrower exceeds BGN 80,000
             $isTotalLoansAmountValid = $this->loanService->checkTotalLoansAmount($request->borrower_name, $request->amount);
+
+            if (!$isTotalLoansAmountValid) {
+                return redirect()->back()->with('error', 'The total amount of loans for this borrower exceeds BGN 80,000.');
+            }
+
+            $loan = Loan::create($request->all());
+
+            return redirect()->route('loans.index')
+                ->with('success', 'Loan created successfully.');
         } catch (Throwable $e) {
             Log::critical($e->getMessage());
-            return redirect()->back()->with('error', 'The total amount of loans for this borrower exceeds BGN 80,000.');
+            return redirect()->back()->with('error', 'An error occurred while creating the loan.');
         }
-
-        $loan = Loan::create($request->all());
-
-        return redirect()->route('loans.index')
-            ->with('success', 'Loan created successfully.');
-    }
-
-    public function calculateMonthlyInstallment($loanAmount, $loanTerm)
-    {
-        return $this->loanService->calculateMonthlyInstallment($loanAmount, $loanTerm);
     }
 }
