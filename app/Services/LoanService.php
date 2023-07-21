@@ -9,41 +9,43 @@ use App\Models\Loan;
 class LoanService
 {
     /**
-     * Calculate the monthly installment amount for a loan
+     * Calculate the annual interest for a loan amount.
      *
-     * @param $loanAmount
-     * @param $loanTerm
-     * @return float|int|string
+     * @param float $loanAmount The loan amount.
+     * @return float The calculated annual interest.
      */
-//    public function calculateMonthlyInstallment($loanAmount, $loanTerm)
-//    {
-//        $annualInterestRate = 0.079; // 7.9% annual interest rate
-//        $monthlyInterestRate = $annualInterestRate / 12; // Convert annual interest rate to monthly interest rate
-//
-//        $denominator = 1 - pow(1 + $monthlyInterestRate, -$loanTerm);
-//
-//        // Check if the denominator is zero (infinite installment amount) to avoid division by zero
-//        if ($denominator === 0) {
-//            return 'N/A';
-//        }
-//
-//        $monthlyInstallment = ($loanAmount * $monthlyInterestRate) / $denominator;
-//        return round($monthlyInstallment, 2); // Round to 2 decimal places
-//    }
-    public function calculateMonthlyInstallment($loanAmount, $loanTerm)
+    public function calculateMonthlyInstallment($loanAmount)
+    {
+        $annualInterestRate = 0.079; // 7.9% annual interest rate
+
+        // Calculate the annual interest amount
+        $annualInterest = $loanAmount * $annualInterestRate;
+
+        return $annualInterest;
+    }
+
+    /**
+     * Calculate the monthly payment amount for a loan.
+     *
+     * @param float $loanAmount The loan amount.
+     * @param int $loanTermMonths The loan term in months.
+     * @return float The calculated monthly payment amount.
+     */
+    public function calculateMonthlyPayment($loanAmount, $loanTermMonths)
     {
         $annualInterestRate = 0.079; // 7.9% annual interest rate
         $monthlyInterestRate = $annualInterestRate / 12; // Convert annual interest rate to monthly interest rate
 
-        $denominator = 1 - pow(1 + $monthlyInterestRate, -$loanTerm);
+        // Calculate the monthly payment amount using the formula for a fixed-rate loan payment
+        $denominator = 1 - pow(1 + $monthlyInterestRate, -$loanTermMonths);
 
         // Check if the denominator is zero (infinite installment amount) to avoid division by zero
         if ($denominator === 0) {
-            return 'N/A';
+            return 0;
         }
 
-        $monthlyInstallment = ($loanAmount * $monthlyInterestRate) / $denominator;
-        return round($monthlyInstallment, 2); // Round to 2 decimal places
+        $monthlyPayment = ($loanAmount * $monthlyInterestRate) / $denominator;
+        return round($monthlyPayment, 2); // Round to 2 decimal places
     }
 
     /**

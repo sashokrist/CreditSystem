@@ -23,8 +23,9 @@
                                 <th>Кредит ID</th>
                                 <th>Име на получателя</th>
                                 <th>Сума (BGN)</th>
+                                <th>Месечна вноска (BGN)</th>
                                 <th>Период (месеци)</th>
-                                <th>Месечана лихва (BGN)</th>
+                                <th>Лихва (BGN)</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -33,6 +34,14 @@
                                     <td>{{ $loan->id }}</td>
                                     <td>{{ $loan->borrower_name }}</td>
                                     <td>{{ $loan->amount }} лв.</td>
+                                    <td>
+                                        @php
+                                            // Calculate monthly installment using the LoanService
+                                            $loanService = app(\App\Services\LoanService::class);
+                                            $monthlyInstallment = $loanService->calculateMonthlyPayment($loan->amount, $loan->term);
+                                            echo number_format($monthlyInstallment, 2);
+                                        @endphp лв.
+                                    </td>
                                     <td>{{ $loan->term }}</td>
                                     <td>
                                         @php

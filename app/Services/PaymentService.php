@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Exceptions\PaymentException;
 use App\Models\Loan;
 use App\Models\Payment;
+use http\Exception\RuntimeException;
 
 class PaymentService
 {
@@ -14,36 +16,20 @@ class PaymentService
      * @param float $loanAmount
      * @return bool
      */
-    public function makePayment(Loan $loan, $amount)
+    public function makePayment(Loan $loan, $amountToBePaid)
     {
-        // Calculate the total amount paid for the loan
-        $paid = $amount;
         // Calculate the remaining amount due for the loan
         $remainingAmount = $loan->amount;
 
-        $current = $remainingAmount - $paid;
-
-        // Check if the payment amount exceeds the remaining amount due
-        if ($amount > $loan->amount) {
-            $loan->amount = $remainingAmount - $paid;
+        if ($amountToBePaid > $remainingAmount) {
+            $remainingAmount = $amountToBePaid - $remainingAmount;
+            $loan->amount = 0;
             $loan->save();
-            return false; // Payment exceeds the remaining amount due
+            throw new PaymentException(sprintf('Вие платих те (%d) лв. повече от колкото дължите сумата ще ви бъде приспадната и остатъка ввърнат! Сума за получаване: (%d) лв. ',
+                $amountToBePaid, $remainingAmount ));
         }
 
-        // Create a payment record for the loan
-        Payment::create([
-            'loan_id' => $loan->id,
-            'amount' => $amount,
-        ]);
-
-        $loan->amount = $current;
+        $loan->amount = $amountToBePaid;
         $loan->save();
-
-        // Check if the remaining amount becomes zero or negative
-        if ($current <= 0) {
-            $loan->delete();
-        }
-
-        return true; // Payment made successfully
     }
 }

@@ -46,9 +46,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('loans.create') }}">Вземи Кредит</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('payments.index') }}">Плащания</a>
-                                </li>
+{{--                                <li class="nav-item">--}}
+{{--                                    <a class="nav-link" href="{{ route('payments.index') }}">Плащания</a>--}}
+{{--                                </li>--}}
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('payments.create') }}">Плати</a>
                                 </li>

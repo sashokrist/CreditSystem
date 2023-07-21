@@ -41,6 +41,3 @@ Route::get('/payments/create', [PaymentController::class, 'createPayment'])->nam
 
 // Route for handling the form submission to make a payment for a given loan
 Route::post('/payments', [PaymentController::class, 'store'])->name('payments.store');
-
-// Route for displaying all payments
-Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');

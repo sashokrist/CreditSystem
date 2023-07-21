@@ -1,7 +1,5 @@
 <?php
 
-// app/Http/Controllers/LoanController.php
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoanRequest;
@@ -49,8 +47,7 @@ class LoanController extends Controller
 
             $loan = Loan::create($request->all());
 
-            return redirect()->route('loans.index')
-                ->with('success', 'Loan created successfully.');
+            return redirect()->route('loans.index')->with('success', 'Вие успешно взехте заем.');
         } catch (Throwable $e) {
             Log::critical($e->getMessage());
             return redirect()->back()->with('error', 'An error occurred while creating the loan.');
